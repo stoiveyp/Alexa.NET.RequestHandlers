@@ -43,22 +43,23 @@ namespace Alexa.NET.RequestHandlers
 	        ErrorInterceptors = errorInterceptors == null ? new LinkedList<IErrorHandlerInterceptor>() : new LinkedList<IErrorHandlerInterceptor>(errorInterceptors);
         }
 
-	    public Task<SkillResponse> Process(SkillRequest input)
+	    public Task<SkillResponse> Process(SkillRequest input, object context = null)
 		{
 		    if (input == null)
 		    {
 		        throw new ArgumentNullException(nameof(input), "Null Skill Request");
 		    }
 
+			var info = new RequestInformation(input, context);
             try
 			{
-			    var candidate = RequestHandlers.FirstOrDefault(h => h?.CanHandle(input) ?? false);
+				var candidate = RequestHandlers.FirstOrDefault(h => h?.CanHandle(info) ?? false);
 			    if (candidate == null)
 			    {
 			        throw new RequestHandlerNotFoundException();
 			    }
 
-				return new RequestHandlerInterceptor(RequestInterceptors.First,candidate).Intercept(input);
+				return new RequestHandlerInterceptor(RequestInterceptors.First,candidate).Intercept(info);
 			}
 			catch (RequestHandlerNotFoundException) when (!RequestHandlerTriggersErrorHandlers)
 			{
@@ -70,13 +71,13 @@ namespace Alexa.NET.RequestHandlers
 			}
 			catch (Exception ex)
 			{
-				var errorCandidate = ErrorHandlers.FirstOrDefault(eh => eh?.CanHandle(input, ex) ?? false);
+				var errorCandidate = ErrorHandlers.FirstOrDefault(eh => eh?.CanHandle(info, ex) ?? false);
 				if (errorCandidate == null)
 				{
 					throw;
 				}
 
-				return new ErrorHandlerInterceptor(ErrorInterceptors.First,errorCandidate).Intercept(input, ex);
+				return new ErrorHandlerInterceptor(ErrorInterceptors.First,errorCandidate).Intercept(info, ex);
 			}
 		}
     }

@@ -17,17 +17,17 @@ namespace Alexa.NET.RequestHandlers.Interceptors
         public LinkedListNode<IRequestHandlerInterceptor> Node { get; }
         public IRequestHandler Handler { get; }
 
-        public Task<SkillResponse> Intercept(SkillRequest request)
+        public Task<SkillResponse> Intercept(RequestInformation information)
         {
             if (Node == null)
             {
-                return Handler.Handle(request);
+                return Handler.Handle(information);
             }
 
-			return Node.Value.Intercept(request, new RequestHandlerInterceptor(Node.Next,Handler).Intercept);
+			return Node.Value.Intercept(information, new RequestHandlerInterceptor(Node.Next,Handler).Intercept);
         }
 
-        public Task<SkillResponse> Intercept(SkillRequest request, RequestInterceptorCall next)
+		public Task<SkillResponse> Intercept(RequestInformation request, RequestInterceptorCall next)
         {
             return Node.Value.Intercept(request, next);
         }

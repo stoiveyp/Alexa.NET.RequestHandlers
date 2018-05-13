@@ -7,10 +7,10 @@ using Alexa.NET.Response;
 
 namespace Alexa.NET.RequestHandlers
 {
-	public delegate Task<SkillResponse> ErrorInterceptorCall(SkillRequest request, Exception ex);
+	public delegate Task<SkillResponse> ErrorInterceptorCall(RequestInformation request, Exception ex);
 
     public interface IErrorHandlerInterceptor
     {
-		Task<SkillResponse> Intercept(SkillRequest request, Exception ex, ErrorInterceptorCall next);
+		Task<SkillResponse> Intercept(RequestInformation request, Exception ex, ErrorInterceptorCall next);
     }
 }

@@ -17,7 +17,7 @@ namespace Alexa.NET.RequestHandlers.Interceptors
 		public LinkedListNode<IErrorHandlerInterceptor> Node { get; }
         public IErrorHandler Handler { get; }
 
-        public Task<SkillResponse> Intercept(SkillRequest request, Exception ex)
+		public Task<SkillResponse> Intercept(RequestInformation request, Exception ex)
         {
             if (Node == null)
             {
@@ -27,7 +27,7 @@ namespace Alexa.NET.RequestHandlers.Interceptors
 			return Node.Value.Intercept(request, ex,new ErrorHandlerInterceptor(Node.Next, Handler).Intercept);
         }
 
-		public Task<SkillResponse> Intercept(SkillRequest request, Exception ex,ErrorInterceptorCall next)
+		public Task<SkillResponse> Intercept(RequestInformation request, Exception ex,ErrorInterceptorCall next)
         {
             return Node.Value.Intercept(request, ex,next);
         }

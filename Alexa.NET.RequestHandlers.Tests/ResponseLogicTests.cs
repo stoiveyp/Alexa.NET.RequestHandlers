@@ -16,11 +16,11 @@ namespace Alexa.NET.RequestHandlers.Tests
             var expected = ResponseBuilder.Empty();
 
             var requestHandler = Substitute.For<IRequestHandler>();
-            requestHandler.CanHandle(Arg.Any<SkillRequest>()).Returns(true);
-            requestHandler.Handle(Arg.Any<SkillRequest>()).Returns(expected);
+			requestHandler.CanHandle(Arg.Any<RequestInformation>()).Returns(true);
+			requestHandler.Handle(Arg.Any<RequestInformation>()).Returns(expected);
 
             var errorHandler = Substitute.For<IErrorHandler>();
-            errorHandler.CanHandle(Arg.Any<SkillRequest>(), Arg.Any<Exception>()).Returns(false);
+			errorHandler.CanHandle(Arg.Any<RequestInformation>(), Arg.Any<Exception>()).Returns(false);
 
             var request = new Request(new[] { requestHandler }, new[] { errorHandler });
             var actual = await request.Process(new SkillRequest());
@@ -33,14 +33,14 @@ namespace Alexa.NET.RequestHandlers.Tests
             var expected = ResponseBuilder.Empty();
 
             var alwaysFalse = Substitute.For<IRequestHandler>();
-            alwaysFalse.CanHandle(Arg.Any<SkillRequest>()).Returns(false);
+			alwaysFalse.CanHandle(Arg.Any<RequestInformation>()).Returns(false);
 
             var requestHandler = Substitute.For<IRequestHandler>();
-            requestHandler.CanHandle(Arg.Any<SkillRequest>()).Returns(true);
-            requestHandler.Handle(Arg.Any<SkillRequest>()).Returns(expected);
+			requestHandler.CanHandle(Arg.Any<RequestInformation>()).Returns(true);
+			requestHandler.Handle(Arg.Any<RequestInformation>()).Returns(expected);
 
             var errorHandler = Substitute.For<IErrorHandler>();
-            errorHandler.CanHandle(Arg.Any<SkillRequest>(), Arg.Any<Exception>()).Returns(false);
+			errorHandler.CanHandle(Arg.Any<RequestInformation>(), Arg.Any<Exception>()).Returns(false);
 
             var request = new Request(new[] { alwaysFalse, requestHandler }, new[] { errorHandler });
             var actual = await request.Process(new SkillRequest());

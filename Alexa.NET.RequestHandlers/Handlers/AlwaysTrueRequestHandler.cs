@@ -9,8 +9,8 @@ namespace Alexa.NET.RequestHandlers.Handlers
 {
     public abstract class AlwaysTrueRequestHandler:IRequestHandler
     {
-        public bool CanHandle(SkillRequest request) => true;
+		public bool CanHandle(RequestInformation request) => true;
 
-        public abstract Task<SkillResponse> Handle(SkillRequest request);
+		public abstract Task<SkillResponse> Handle(RequestInformation request);
     }
 }

@@ -21,7 +21,7 @@ namespace Alexa.NET.RequestHandlers.Tests
         public async Task EmptyInterceptorReturnsHandler()
 		{
 			var expected = new SkillResponse();
-			Handler.Handle(Arg.Any<SkillRequest>()).Returns(expected);
+			Handler.Handle(Arg.Any<RequestInformation>()).Returns(expected);
 			var request = new Request(new[] { Handler }, null);
 			var actual = await request.Process(new SkillRequest());
 			Assert.Equal(expected, actual);
@@ -32,16 +32,16 @@ namespace Alexa.NET.RequestHandlers.Tests
 		{
 			var expected = new SkillResponse();
 			var before = string.Empty;
-			Handler.Handle(Arg.Any<SkillRequest>()).Returns(c =>
+			Handler.Handle(Arg.Any<RequestInformation>()).Returns(c =>
 			{
 				before = before + "2";
 				return expected;
 			});
 
 			var interceptor = Substitute.For<IRequestHandlerInterceptor>();
-			interceptor.Intercept(Arg.Any<SkillRequest>(), Arg.Any<RequestInterceptorCall>()).Returns(c => {
+			interceptor.Intercept(Arg.Any<RequestInformation>(), Arg.Any<RequestInterceptorCall>()).Returns(c => {
 				before = before + "1";
-				var actual = c.Arg<RequestInterceptorCall>()(c.Arg<SkillRequest>());
+				var actual = c.Arg<RequestInterceptorCall>()(c.Arg<RequestInformation>());
 				before = before + "3";
 				return actual;
 			});
@@ -56,24 +56,24 @@ namespace Alexa.NET.RequestHandlers.Tests
         {
             var expected = new SkillResponse();
             var before = string.Empty;
-            Handler.Handle(Arg.Any<SkillRequest>()).Returns(c =>
+			Handler.Handle(Arg.Any<RequestInformation>()).Returns(c =>
             {
                 before = before + "3";
                 return expected;
             });
 
             var interceptor = Substitute.For<IRequestHandlerInterceptor>();
-            interceptor.Intercept(Arg.Any<SkillRequest>(), Arg.Any<RequestInterceptorCall>()).Returns(c => {
+			interceptor.Intercept(Arg.Any<RequestInformation>(), Arg.Any<RequestInterceptorCall>()).Returns(c => {
                 before = before + "1";
-                var actual = c.Arg<RequestInterceptorCall>()(c.Arg<SkillRequest>());
+				var actual = c.Arg<RequestInterceptorCall>()(c.Arg<RequestInformation>());
                 before = before + "5";
                 return actual;
             });
 
 			var secondInterceptor = Substitute.For<IRequestHandlerInterceptor>();
-			secondInterceptor.Intercept(Arg.Any<SkillRequest>(), Arg.Any<RequestInterceptorCall>()).Returns(c => {
+			secondInterceptor.Intercept(Arg.Any<RequestInformation>(), Arg.Any<RequestInterceptorCall>()).Returns(c => {
                 before = before + "2";
-                var actual = c.Arg<RequestInterceptorCall>()(c.Arg<SkillRequest>());
+				var actual = c.Arg<RequestInterceptorCall>()(c.Arg<RequestInformation>());
                 before = before + "4";
                 return actual;
             });
@@ -88,24 +88,24 @@ namespace Alexa.NET.RequestHandlers.Tests
         {
             var expected = new SkillResponse();
             var before = string.Empty;
-            Handler.Handle(Arg.Any<SkillRequest>()).Returns(c =>
+			Handler.Handle(Arg.Any<RequestInformation>()).Returns(c =>
             {
                 before = before + "3";
                 return expected;
             });
 
             var interceptor = Substitute.For<IRequestHandlerInterceptor>();
-            interceptor.Intercept(Arg.Any<SkillRequest>(), Arg.Any<RequestInterceptorCall>()).Returns(c => {
+			interceptor.Intercept(Arg.Any<RequestInformation>(), Arg.Any<RequestInterceptorCall>()).Returns(c => {
                 before = before + "1";
-                var actual = c.Arg<RequestInterceptorCall>()(c.Arg<SkillRequest>());
+				var actual = c.Arg<RequestInterceptorCall>()(c.Arg<RequestInformation>());
                 before = before + "5";
                 return actual;
             });
 
             var secondInterceptor = Substitute.For<IRequestHandlerInterceptor>();
-            secondInterceptor.Intercept(Arg.Any<SkillRequest>(), Arg.Any<RequestInterceptorCall>()).Returns(c => {
+			secondInterceptor.Intercept(Arg.Any<RequestInformation>(), Arg.Any<RequestInterceptorCall>()).Returns(c => {
                 before = before + "2";
-                var actual = c.Arg<RequestInterceptorCall>()(c.Arg<SkillRequest>());
+				var actual = c.Arg<RequestInterceptorCall>()(c.Arg<RequestInformation>());
                 before = before + "4";
                 return actual;
             });

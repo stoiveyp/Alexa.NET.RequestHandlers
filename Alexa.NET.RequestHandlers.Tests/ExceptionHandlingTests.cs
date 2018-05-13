@@ -28,7 +28,7 @@ namespace Alexa.NET.RequestHandlers.Tests
         public async Task EmptyRequestHandlerThrowsWhenSet()
         {
 			var errorHandler = Substitute.For<AlwaysTrueErrorHandler>();
-			errorHandler.Handle(Arg.Any<SkillRequest>(), Arg.Any<Exception>()).Returns(new Response.SkillResponse());
+			errorHandler.Handle(Arg.Any<RequestInformation>(), Arg.Any<Exception>()).Returns(new Response.SkillResponse());
 			var request = new Request(null,new[]{errorHandler}) { RequestHandlerTriggersErrorHandlers = false };
             await Assert.ThrowsAsync<RequestHandlerNotFoundException>(() => request.Process(new SkillRequest()));
         }
@@ -37,7 +37,7 @@ namespace Alexa.NET.RequestHandlers.Tests
         public async Task EmptyErrorHandlerThrowsOnException()
         {
             var requestHandler = Substitute.For<AlwaysTrueRequestHandler>();
-            requestHandler.Handle(Arg.Any<SkillRequest>()).Throws<InvalidOperationException>();
+            requestHandler.Handle(Arg.Any<RequestInformation>()).Throws<InvalidOperationException>();
             var request = new Request(new[] { requestHandler });
 			await Assert.ThrowsAsync<InvalidOperationException>(() => request.Process(new SkillRequest()));
         }
@@ -46,7 +46,7 @@ namespace Alexa.NET.RequestHandlers.Tests
         public async Task NoValidRequestHandlerThrowsException()
         {
             var requestHandler = Substitute.For<IRequestHandler>();
-            requestHandler.CanHandle(Arg.Any<SkillRequest>()).Returns(false);
+            requestHandler.CanHandle(Arg.Any<RequestInformation>()).Returns(false);
             var request = new Request(new[] { requestHandler });
 			await Assert.ThrowsAsync<RequestHandlerNotFoundException>(() => request.Process(new SkillRequest()));
         }
@@ -55,10 +55,10 @@ namespace Alexa.NET.RequestHandlers.Tests
         public async Task NoValidErrorHandlerThrowsException()
         {
             var requestHandler = Substitute.For<IRequestHandler>();
-            requestHandler.CanHandle(Arg.Any<SkillRequest>()).Returns(false);
+            requestHandler.CanHandle(Arg.Any<RequestInformation>()).Returns(false);
 
             var errorHandler = Substitute.For<IErrorHandler>();
-            errorHandler.CanHandle(Arg.Any<SkillRequest>(), Arg.Any<Exception>()).Returns(false);
+            errorHandler.CanHandle(Arg.Any<RequestInformation>(), Arg.Any<Exception>()).Returns(false);
 
             var request = new Request(new[] { requestHandler }, new[] { errorHandler });
 			await Assert.ThrowsAsync<RequestHandlerNotFoundException>(() => request.Process(new SkillRequest()));
@@ -68,7 +68,7 @@ namespace Alexa.NET.RequestHandlers.Tests
         public async Task ValidErrorHandlerReturnsResponse()
 		{
 			var errorHandler = Substitute.For<AlwaysTrueErrorHandler>();
-            errorHandler.Handle(Arg.Any<SkillRequest>(), Arg.Any<Exception>()).Returns(new Response.SkillResponse());
+            errorHandler.Handle(Arg.Any<RequestInformation>(), Arg.Any<Exception>()).Returns(new Response.SkillResponse());
 			var request = new Request(null, new[] { errorHandler });
 			var response = await request.Process(new SkillRequest());
 			Assert.NotNull(response);
@@ -78,10 +78,10 @@ namespace Alexa.NET.RequestHandlers.Tests
         public async Task InvalidResponseValidErrorHandlerReturnsResponse()
         {
 			var requestHandler = Substitute.For<IRequestHandler>();
-            requestHandler.CanHandle(Arg.Any<SkillRequest>()).Returns(false);
+            requestHandler.CanHandle(Arg.Any<RequestInformation>()).Returns(false);
 
             var errorHandler = Substitute.For<AlwaysTrueErrorHandler>();
-            errorHandler.Handle(Arg.Any<SkillRequest>(), Arg.Any<Exception>()).Returns(new Response.SkillResponse());
+            errorHandler.Handle(Arg.Any<RequestInformation>(), Arg.Any<Exception>()).Returns(new Response.SkillResponse());
 			var request = new Request(new[]{requestHandler}, new[] { errorHandler });
             var response = await request.Process(new SkillRequest());
             Assert.NotNull(response);
@@ -91,12 +91,12 @@ namespace Alexa.NET.RequestHandlers.Tests
         public async Task SpecificExceptionHandlerPicks()
         {
 			var requestHandler = Substitute.For<AlwaysTrueRequestHandler>();
-			requestHandler.Handle(Arg.Any<SkillRequest>()).Throws<InvalidOperationException>();
+			requestHandler.Handle(Arg.Any<RequestInformation>()).Throws<InvalidOperationException>();
 
 
 			var specificError = Substitute.For<IErrorHandler>();
-			specificError.CanHandle(Arg.Any<SkillRequest>(), Arg.Any<InvalidOperationException>()).Returns(true);
-			specificError.Handle(Arg.Any<SkillRequest>(), Arg.Any<Exception>()).Returns(new Response.SkillResponse());
+			specificError.CanHandle(Arg.Any<RequestInformation>(), Arg.Any<InvalidOperationException>()).Returns(true);
+			specificError.Handle(Arg.Any<RequestInformation>(), Arg.Any<Exception>()).Returns(new Response.SkillResponse());
 			var errorHandler = Substitute.For<AlwaysTrueErrorHandler>();
 
 
