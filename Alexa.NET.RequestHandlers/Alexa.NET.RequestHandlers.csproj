@@ -5,7 +5,7 @@
     <NetStandardImplicitPackageVersion>1.6.0</NetStandardImplicitPackageVersion>
     <PackOnBuild>true</PackOnBuild>
     <Authors>Steven Pears</Authors>
-    <PackageLicenseUrl>https://github.com/stoiveyp/Alexa.NET.RequestHandlers/LICENCE</PackageLicenseUrl>
+    <PackageLicenseUrl>https://github.com/stoiveyp/Alexa.NET.RequestHandlers/LICENSE</PackageLicenseUrl>
     <Owners>Steven Pears</Owners>
     <PackageProjectUrl>https://github.com/stoiveyp/Alexa.NET.RequestHandlers</PackageProjectUrl>
     <PackageReleaseNotes>Initial functionality:
