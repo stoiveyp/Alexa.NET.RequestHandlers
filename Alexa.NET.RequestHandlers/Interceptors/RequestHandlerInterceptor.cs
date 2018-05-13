@@ -1,15 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
 using System.Threading.Tasks;
 using Alexa.NET.Request;
 using Alexa.NET.Response;
 
-namespace Alexa.NET.RequestHandlers.Handlers
+namespace Alexa.NET.RequestHandlers.Interceptors
 {
-    internal class PipelineInterceptor:IRequestHandlerInterceptor
+    internal class RequestHandlerInterceptor:IRequestHandlerInterceptor
     {
-        public PipelineInterceptor(LinkedListNode<IRequestHandlerInterceptor> node, IRequestHandler handler)
+		public RequestHandlerInterceptor(LinkedListNode<IRequestHandlerInterceptor> node, IRequestHandler handler)
         {
             Node = node;
             Handler = handler ?? throw new ArgumentNullException(nameof(handler));
@@ -25,7 +24,7 @@ namespace Alexa.NET.RequestHandlers.Handlers
                 return Handler.Handle(request);
             }
 
-            return Node.Value.Intercept(request, new PipelineInterceptor(Node.Next,Handler).Intercept);
+			return Node.Value.Intercept(request, new RequestHandlerInterceptor(Node.Next,Handler).Intercept);
         }
 
         public Task<SkillResponse> Intercept(SkillRequest request, RequestInterceptorCall next)

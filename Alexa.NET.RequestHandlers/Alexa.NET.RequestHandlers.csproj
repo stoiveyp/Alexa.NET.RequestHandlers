@@ -8,4 +8,11 @@
   <ItemGroup>
     <PackageReference Include="Alexa.NET" Version="1.5.2" />
   </ItemGroup>
+  <ItemGroup>
+    <Compile Remove="ErrorHandlerNotFoundException.cs" />
+    <Compile Remove="HandlerNotFoundException.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Interceptors\" />
+  </ItemGroup>
 </Project>

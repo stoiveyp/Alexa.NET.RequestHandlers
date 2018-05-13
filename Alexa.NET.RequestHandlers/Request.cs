@@ -3,8 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Alexa.NET.Request;
-using Alexa.NET.RequestHandlers.Handlers;
 using Alexa.NET.Response;
+using Alexa.NET.RequestHandlers.Interceptors;
 
 namespace Alexa.NET.RequestHandlers
 {
@@ -58,11 +58,13 @@ namespace Alexa.NET.RequestHandlers
 			        throw new RequestHandlerNotFoundException();
 			    }
 
-			    if (!RequestInterceptors.Any()) return candidate.Handle(input);
-
-			    return new PipelineInterceptor(RequestInterceptors.First,candidate).Intercept(input);
+				return new RequestHandlerInterceptor(RequestInterceptors.First,candidate).Intercept(input);
 			}
 			catch (RequestHandlerNotFoundException) when (!RequestHandlerTriggersErrorHandlers)
+			{
+				throw;
+			}
+			catch(Exception) when (!ErrorHandlers?.Any() ?? false)
 			{
 				throw;
 			}
@@ -71,21 +73,11 @@ namespace Alexa.NET.RequestHandlers
 				var errorCandidate = ErrorHandlers.FirstOrDefault(eh => eh?.CanHandle(input, ex) ?? false);
 				if (errorCandidate == null)
 				{
-					throw new ErrorHandlerNotFoundException(ex);
+					throw;
 				}
 
-				return errorCandidate.Handle(input, ex);
+				return new ErrorHandlerInterceptor(ErrorInterceptors.First,errorCandidate).Intercept(input, ex);
 			}
 		}
-
-        public Task<SkillResponse> GetNext(SkillRequest input, LinkedListNode<Func<SkillRequest, Func<SkillRequest, Task<SkillResponse>>, Task<SkillResponse>>> node)
-	    {
-	        return node?.Value(input, node.Next == null ? null : GetFunc(node.Next));
-	    }
-
-	    public Func<SkillRequest, Task<SkillResponse>> GetFunc(LinkedListNode<Func<SkillRequest, Func<SkillRequest, Task<SkillResponse>>, Task<SkillResponse>>> node)
-	    {
-	        return skillRequest => GetNext(skillRequest, node);
-	    }
     }
 }

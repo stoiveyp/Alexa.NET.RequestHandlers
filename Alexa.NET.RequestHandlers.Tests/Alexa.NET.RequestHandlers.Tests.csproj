@@ -17,4 +17,7 @@
     <ProjectReference Include="..\Alexa.NET.RequestHandlers\Alexa.NET.RequestHandlers.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Compile Remove="ErrorHandlingTests.cs" />
+  </ItemGroup>
 </Project>
