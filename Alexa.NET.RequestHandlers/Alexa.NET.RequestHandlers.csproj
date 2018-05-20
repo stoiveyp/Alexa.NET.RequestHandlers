@@ -8,11 +8,8 @@
     <PackageLicenseUrl>https://github.com/stoiveyp/Alexa.NET.RequestHandlers/LICENSE</PackageLicenseUrl>
     <Owners>Steven Pears</Owners>
     <PackageProjectUrl>https://github.com/stoiveyp/Alexa.NET.RequestHandlers</PackageProjectUrl>
-    <PackageReleaseNotes>Add abstract class:
--  SynchronousRequestHandler 
--  SynchronousErrorHandler
-
-Ensuring that you don't have to keep wrapping a simple response in Task.FromResult just to get it to work</PackageReleaseNotes>
+    <PackageReleaseNotes>Change request to information in all interfaces to correctly name data type
+Add ISkillState to request</PackageReleaseNotes>
     <PackageTags>Alexa, .NET, Echo</PackageTags>
     <Title>Alexa.NET.RequestHandlers</Title>
     <Description>A small library to help maintain clean code within a skill. Replicates the Request and Response Handler approach given in the ASK SDK for Node, as well as the concept of Request and Error Interceptors. For more information look at the docs or github links.</Description>
@@ -23,6 +20,7 @@ Ensuring that you don't have to keep wrapping a simple response in Task.FromResu
   <ItemGroup>
     <PackageReference Include="Alexa.NET" Version="1.5.2" />
     <PackageReference Include="NuGet.Build.Packaging" Version="0.2.0" />
+    <PackageReference Include="Alexa.NET.StateManagement" Version="1.0.7" />
   </ItemGroup>
   <ItemGroup>
     <Compile Remove="ErrorHandlerNotFoundException.cs" />

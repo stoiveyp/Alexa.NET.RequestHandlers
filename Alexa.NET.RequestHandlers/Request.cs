@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Alexa.NET.Request;
 using Alexa.NET.Response;
 using Alexa.NET.RequestHandlers.Interceptors;
+using Alexa.NET.StateManagement;
 
 namespace Alexa.NET.RequestHandlers
 {
@@ -16,6 +17,7 @@ namespace Alexa.NET.RequestHandlers
 		public List<IErrorHandler> ErrorHandlers { get; }
         public LinkedList<IRequestHandlerInterceptor> RequestInterceptors { get; }
         public LinkedList<IErrorHandlerInterceptor> ErrorInterceptors { get; }
+		public IPersistenceStore StatePersistance { get; set; }
 
 	    public Request()
 	    {
@@ -43,23 +45,33 @@ namespace Alexa.NET.RequestHandlers
 	        ErrorInterceptors = errorInterceptors == null ? new LinkedList<IErrorHandlerInterceptor>() : new LinkedList<IErrorHandlerInterceptor>(errorInterceptors);
         }
 
-	    public Task<SkillResponse> Process(SkillRequest input, object context = null)
-		{
-		    if (input == null)
-		    {
-		        throw new ArgumentNullException(nameof(input), "Null Skill Request");
-		    }
+		public Task<SkillResponse> Process(SkillRequest input, object context = null)
+        {
+            if (input == null)
+            {
+                throw new ArgumentNullException(nameof(input), "Null Skill Request");
+            }
 
-			var info = new RequestInformation(input, context);
+			if(StatePersistance == null)
+			{
+				return Process(new RequestInformation(input, context));
+			}
+
+			return Process(new RequestInformation(input, context, StatePersistance));
+            
+        }
+
+	    private Task<SkillResponse> Process(RequestInformation information)
+		{         
             try
 			{
-				var candidate = RequestHandlers.FirstOrDefault(h => h?.CanHandle(info) ?? false);
+				var candidate = RequestHandlers.FirstOrDefault(h => h?.CanHandle(information) ?? false);
 			    if (candidate == null)
 			    {
 			        throw new RequestHandlerNotFoundException();
 			    }
 
-				return new RequestHandlerInterceptor(RequestInterceptors.First,candidate).Intercept(info);
+				return new RequestHandlerInterceptor(RequestInterceptors.First,candidate).Intercept(information);
 			}
 			catch (RequestHandlerNotFoundException) when (!RequestHandlerTriggersErrorHandlers)
 			{
@@ -71,13 +83,13 @@ namespace Alexa.NET.RequestHandlers
 			}
 			catch (Exception ex)
 			{
-				var errorCandidate = ErrorHandlers.FirstOrDefault(eh => eh?.CanHandle(info, ex) ?? false);
+				var errorCandidate = ErrorHandlers.FirstOrDefault(eh => eh?.CanHandle(information, ex) ?? false);
 				if (errorCandidate == null)
 				{
 					throw;
 				}
 
-				return new ErrorHandlerInterceptor(ErrorInterceptors.First,errorCandidate).Intercept(info, ex);
+				return new ErrorHandlerInterceptor(ErrorInterceptors.First,errorCandidate).Intercept(information, ex);
 			}
 		}
     }
