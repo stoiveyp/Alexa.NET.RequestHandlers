@@ -7,7 +7,7 @@ namespace Alexa.NET.RequestHandlers
 {
     public interface IErrorHandler
     {
-		bool CanHandle(RequestInformation request, Exception exception);
-		Task<SkillResponse> Handle(RequestInformation request, Exception exception);      
+		bool CanHandle(RequestInformation information, Exception exception);
+		Task<SkillResponse> Handle(RequestInformation information, Exception exception);      
     }
 }

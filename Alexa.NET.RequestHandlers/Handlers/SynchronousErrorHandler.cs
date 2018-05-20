@@ -8,13 +8,13 @@ namespace Alexa.NET.RequestHandlers.Handlers
 {
     public abstract class SynchronousErrorHandler:IErrorHandler
     {
-        public abstract bool CanHandle(RequestInformation request, Exception exception);
+        public abstract bool CanHandle(RequestInformation information, Exception exception);
 
-        public abstract SkillResponse HandleSyncRequest(RequestInformation request, Exception exception);
+        public abstract SkillResponse HandleSyncRequest(RequestInformation information, Exception exception);
 
-        public Task<SkillResponse> Handle(RequestInformation request, Exception exception)
+        public Task<SkillResponse> Handle(RequestInformation information, Exception exception)
         {
-            return Task.FromResult(HandleSyncRequest(request, exception));
+            return Task.FromResult(HandleSyncRequest(information, exception));
         }
     }
 }

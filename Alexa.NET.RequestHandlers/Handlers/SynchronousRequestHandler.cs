@@ -8,13 +8,13 @@ namespace Alexa.NET.RequestHandlers.Handlers
 {
     public abstract class SynchronousRequestHandler:IRequestHandler
     {
-        public abstract bool CanHandle(RequestInformation request);
+        public abstract bool CanHandle(RequestInformation information);
 
-        public abstract SkillResponse HandleSyncRequest(RequestInformation request);
+        public abstract SkillResponse HandleSyncRequest(RequestInformation information);
 
-        public Task<SkillResponse> Handle(RequestInformation request)
+        public Task<SkillResponse> Handle(RequestInformation information)
         {
-            return Task.FromResult(HandleSyncRequest(request));
+            return Task.FromResult(HandleSyncRequest(information));
         }
     }
 }

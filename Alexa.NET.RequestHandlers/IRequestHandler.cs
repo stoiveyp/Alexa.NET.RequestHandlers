@@ -7,7 +7,7 @@ namespace Alexa.NET.RequestHandlers
 {
     public interface IRequestHandler
     {
-		bool CanHandle(RequestInformation request);
-		Task<SkillResponse> Handle(RequestInformation request);
+		bool CanHandle(RequestInformation information);
+		Task<SkillResponse> Handle(RequestInformation information);
     }
 }
