@@ -8,12 +8,18 @@
     <PackageLicenseUrl>https://github.com/stoiveyp/Alexa.NET.RequestHandlers/LICENSE</PackageLicenseUrl>
     <Owners>Steven Pears</Owners>
     <PackageProjectUrl>https://github.com/stoiveyp/Alexa.NET.RequestHandlers</PackageProjectUrl>
-    <PackageReleaseNotes>Update state management support to 1.0.15 to fix session key bug</PackageReleaseNotes>
+    <PackageReleaseNotes>Rename structure to cause less confusion with other request/resonse libraries
+        Request -&gt; AlexaRequestPipeline
+        RequestHandler -&gt; AlexaRequestHandler
+        ErrorHandler -&gt; AlexaErrorHandler
+        RequestHandlerInterceptor -&gt; AlexaRequestInterceptor
+        ErrorHandlerInterceptor -&gt; AlexaErrorInterceptor
+    </PackageReleaseNotes>
     <PackageTags>Alexa, .NET, Echo</PackageTags>
     <Title>Alexa.NET.RequestHandlers</Title>
     <Description>A small library to help maintain clean code within a skill. Replicates the Request and Response Handler approach given in the ASK SDK for Node, as well as the concept of Request and Error Interceptors. For more information look at the docs or github links.</Description>
     <PackageId>Alexa.NET.RequestHandlers</PackageId>
-    <PackageVersion>1.0.0</PackageVersion>
+    <PackageVersion>2.0.0</PackageVersion>
   </PropertyGroup>
 
   <ItemGroup>

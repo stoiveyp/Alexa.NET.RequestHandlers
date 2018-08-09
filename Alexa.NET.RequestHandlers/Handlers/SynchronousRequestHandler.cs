@@ -6,13 +6,13 @@ using Alexa.NET.Response;
 
 namespace Alexa.NET.RequestHandlers.Handlers
 {
-    public abstract class SynchronousRequestHandler:IRequestHandler
+    public abstract class SynchronousRequestHandler:IAlexaRequestHandler
     {
-        public abstract bool CanHandle(RequestInformation information);
+        public abstract bool CanHandle(AlexaRequestInformation information);
 
-        public abstract SkillResponse HandleSyncRequest(RequestInformation information);
+        public abstract SkillResponse HandleSyncRequest(AlexaRequestInformation information);
 
-        public Task<SkillResponse> Handle(RequestInformation information)
+        public Task<SkillResponse> Handle(AlexaRequestInformation information)
         {
             return Task.FromResult(HandleSyncRequest(information));
         }

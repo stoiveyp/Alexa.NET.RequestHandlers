@@ -6,7 +6,7 @@ using Alexa.NET.Response;
 
 namespace Alexa.NET.RequestHandlers.Handlers
 {
-	public abstract class IntentNameRequestHandler:IRequestHandler
+	public abstract class IntentNameRequestHandler:IAlexaRequestHandler
     {
 		public string IntentName { get; }
 
@@ -15,12 +15,12 @@ namespace Alexa.NET.RequestHandlers.Handlers
             IntentName = intentName;
         }
 
-        public bool CanHandle(RequestInformation information)
+        public bool CanHandle(AlexaRequestInformation information)
         {
 			var intentRequest = information.SkillRequest.Request as IntentRequest;
             return intentRequest != null && string.Compare(IntentName, intentRequest.Intent.Name, true) == 0;
         }
               
-		public abstract Task<SkillResponse> Handle(RequestInformation information);
+		public abstract Task<SkillResponse> Handle(AlexaRequestInformation information);
 	}
 }

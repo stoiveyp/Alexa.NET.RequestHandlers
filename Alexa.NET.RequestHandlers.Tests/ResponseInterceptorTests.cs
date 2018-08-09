@@ -11,7 +11,7 @@ namespace Alexa.NET.RequestHandlers.Tests
     public class ResponseInterceptorTests
     {
 
-		IRequestHandler Handler { get; }
+		IAlexaRequestHandler Handler { get; }
 		public ResponseInterceptorTests()
 		{
 			Handler = Substitute.For<AlwaysTrueRequestHandler>();
@@ -21,8 +21,8 @@ namespace Alexa.NET.RequestHandlers.Tests
         public async Task EmptyInterceptorReturnsHandler()
 		{
 			var expected = new SkillResponse();
-			Handler.Handle(Arg.Any<RequestInformation>()).Returns(expected);
-			var request = new Request(new[] { Handler }, null);
+			Handler.Handle(Arg.Any<AlexaRequestInformation>()).Returns(expected);
+			var request = new AlexaRequestPipeline(new[] { Handler }, null);
 			var actual = await request.Process(new SkillRequest());
 			Assert.Equal(expected, actual);
 		}
@@ -32,21 +32,21 @@ namespace Alexa.NET.RequestHandlers.Tests
 		{
 			var expected = new SkillResponse();
 			var before = string.Empty;
-			Handler.Handle(Arg.Any<RequestInformation>()).Returns(c =>
+			Handler.Handle(Arg.Any<AlexaRequestInformation>()).Returns(c =>
 			{
 				before = before + "2";
 				return expected;
 			});
 
-			var interceptor = Substitute.For<IRequestHandlerInterceptor>();
-			interceptor.Intercept(Arg.Any<RequestInformation>(), Arg.Any<RequestInterceptorCall>()).Returns(c => {
+			var interceptor = Substitute.For<IAlexaRequestInterceptor>();
+			interceptor.Intercept(Arg.Any<AlexaRequestInformation>(), Arg.Any<RequestInterceptorCall>()).Returns(c => {
 				before = before + "1";
-				var actual = c.Arg<RequestInterceptorCall>()(c.Arg<RequestInformation>());
+				var actual = c.Arg<RequestInterceptorCall>()(c.Arg<AlexaRequestInformation>());
 				before = before + "3";
 				return actual;
 			});
 
-			var request = new Request(new[] { Handler }, null,new[]{interceptor},null);
+			var request = new AlexaRequestPipeline(new[] { Handler }, null,new[]{interceptor},null);
             await request.Process(new SkillRequest());
             Assert.Equal("123", before);
 		}
@@ -56,29 +56,29 @@ namespace Alexa.NET.RequestHandlers.Tests
         {
             var expected = new SkillResponse();
             var before = string.Empty;
-			Handler.Handle(Arg.Any<RequestInformation>()).Returns(c =>
+			Handler.Handle(Arg.Any<AlexaRequestInformation>()).Returns(c =>
             {
                 before = before + "3";
                 return expected;
             });
 
-            var interceptor = Substitute.For<IRequestHandlerInterceptor>();
-			interceptor.Intercept(Arg.Any<RequestInformation>(), Arg.Any<RequestInterceptorCall>()).Returns(c => {
+            var interceptor = Substitute.For<IAlexaRequestInterceptor>();
+			interceptor.Intercept(Arg.Any<AlexaRequestInformation>(), Arg.Any<RequestInterceptorCall>()).Returns(c => {
                 before = before + "1";
-				var actual = c.Arg<RequestInterceptorCall>()(c.Arg<RequestInformation>());
+				var actual = c.Arg<RequestInterceptorCall>()(c.Arg<AlexaRequestInformation>());
                 before = before + "5";
                 return actual;
             });
 
-			var secondInterceptor = Substitute.For<IRequestHandlerInterceptor>();
-			secondInterceptor.Intercept(Arg.Any<RequestInformation>(), Arg.Any<RequestInterceptorCall>()).Returns(c => {
+			var secondInterceptor = Substitute.For<IAlexaRequestInterceptor>();
+			secondInterceptor.Intercept(Arg.Any<AlexaRequestInformation>(), Arg.Any<RequestInterceptorCall>()).Returns(c => {
                 before = before + "2";
-				var actual = c.Arg<RequestInterceptorCall>()(c.Arg<RequestInformation>());
+				var actual = c.Arg<RequestInterceptorCall>()(c.Arg<AlexaRequestInformation>());
                 before = before + "4";
                 return actual;
             });
 
-			var request = new Request(new[] { Handler }, null, new[] { interceptor,secondInterceptor }, null);
+			var request = new AlexaRequestPipeline(new[] { Handler }, null, new[] { interceptor,secondInterceptor }, null);
             await request.Process(new SkillRequest());
             Assert.Equal("12345", before);
         }
@@ -88,29 +88,29 @@ namespace Alexa.NET.RequestHandlers.Tests
         {
             var expected = new SkillResponse();
             var before = string.Empty;
-			Handler.Handle(Arg.Any<RequestInformation>()).Returns(c =>
+			Handler.Handle(Arg.Any<AlexaRequestInformation>()).Returns(c =>
             {
                 before = before + "3";
                 return expected;
             });
 
-            var interceptor = Substitute.For<IRequestHandlerInterceptor>();
-			interceptor.Intercept(Arg.Any<RequestInformation>(), Arg.Any<RequestInterceptorCall>()).Returns(c => {
+            var interceptor = Substitute.For<IAlexaRequestInterceptor>();
+			interceptor.Intercept(Arg.Any<AlexaRequestInformation>(), Arg.Any<RequestInterceptorCall>()).Returns(c => {
                 before = before + "1";
-				var actual = c.Arg<RequestInterceptorCall>()(c.Arg<RequestInformation>());
+				var actual = c.Arg<RequestInterceptorCall>()(c.Arg<AlexaRequestInformation>());
                 before = before + "5";
                 return actual;
             });
 
-            var secondInterceptor = Substitute.For<IRequestHandlerInterceptor>();
-			secondInterceptor.Intercept(Arg.Any<RequestInformation>(), Arg.Any<RequestInterceptorCall>()).Returns(c => {
+            var secondInterceptor = Substitute.For<IAlexaRequestInterceptor>();
+			secondInterceptor.Intercept(Arg.Any<AlexaRequestInformation>(), Arg.Any<RequestInterceptorCall>()).Returns(c => {
                 before = before + "2";
-				var actual = c.Arg<RequestInterceptorCall>()(c.Arg<RequestInformation>());
+				var actual = c.Arg<RequestInterceptorCall>()(c.Arg<AlexaRequestInformation>());
                 before = before + "4";
                 return actual;
             });
 
-			var request = new Request(new[] { Handler }, null, new[] { secondInterceptor,interceptor }, null);
+			var request = new AlexaRequestPipeline(new[] { Handler }, null, new[] { secondInterceptor,interceptor }, null);
             await request.Process(new SkillRequest());
             Assert.Equal("21354", before);
         }
