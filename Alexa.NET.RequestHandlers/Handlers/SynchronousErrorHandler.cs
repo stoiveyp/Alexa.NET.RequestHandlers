@@ -6,13 +6,13 @@ using Alexa.NET.Response;
 
 namespace Alexa.NET.RequestHandlers.Handlers
 {
-    public abstract class SynchronousErrorHandler:IErrorHandler
+    public abstract class SynchronousErrorHandler:IAlexaErrorHandler
     {
-        public abstract bool CanHandle(RequestInformation information, Exception exception);
+        public abstract bool CanHandle(AlexaRequestInformation information, Exception exception);
 
-        public abstract SkillResponse HandleSyncRequest(RequestInformation information, Exception exception);
+        public abstract SkillResponse HandleSyncRequest(AlexaRequestInformation information, Exception exception);
 
-        public Task<SkillResponse> Handle(RequestInformation information, Exception exception)
+        public Task<SkillResponse> Handle(AlexaRequestInformation information, Exception exception)
         {
             return Task.FromResult(HandleSyncRequest(information, exception));
         }
