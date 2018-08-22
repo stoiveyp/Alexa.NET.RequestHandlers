@@ -10,15 +10,15 @@ namespace Alexa.NET.RequestHandlers.Handlers
     {
 		public string IntentName { get; }
 
-        public IntentNameRequestHandler(string intentName)
+        protected IntentNameRequestHandler(string intentName)
         {
             IntentName = intentName;
         }
 
         public bool CanHandle(AlexaRequestInformation information)
         {
-			var intentRequest = information.SkillRequest.Request as IntentRequest;
-            return intentRequest != null && string.Compare(IntentName, intentRequest.Intent.Name, true) == 0;
+            return information.SkillRequest.Request is IntentRequest intentRequest 
+                   && String.Compare(IntentName, intentRequest.Intent.Name, StringComparison.OrdinalIgnoreCase) == 0;
         }
               
 		public abstract Task<SkillResponse> Handle(AlexaRequestInformation information);
