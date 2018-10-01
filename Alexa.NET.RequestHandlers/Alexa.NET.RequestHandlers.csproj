@@ -8,18 +8,19 @@
     <PackageLicenseUrl>https://github.com/stoiveyp/Alexa.NET.RequestHandlers/LICENSE</PackageLicenseUrl>
     <Owners>Steven Pears</Owners>
     <PackageProjectUrl>https://github.com/stoiveyp/Alexa.NET.RequestHandlers</PackageProjectUrl>
-    <PackageReleaseNotes>Add LaunchRequestHandler and LaunchSynchronousRequestHandler</PackageReleaseNotes>
+    <PackageReleaseNotes>Update to handle V2 Alexa.Net.SessionState, making IPersistenceStore SkillRequest aware</PackageReleaseNotes>
     <PackageTags>Alexa, .NET, Echo</PackageTags>
     <Title>Alexa.NET.RequestHandlers</Title>
     <Description>A small library to help maintain clean code within a skill. Replicates the Request and Response Handler approach given in the ASK SDK for Node, as well as the concept of Request and Error Interceptors. For more information look at the docs or github links.</Description>
     <PackageId>Alexa.NET.RequestHandlers</PackageId>
     <PackageVersion>2.0.0</PackageVersion>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <Version>3.0.0</Version>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Alexa.NET" Version="1.5.2" />
-    <PackageReference Include="Alexa.NET.StateManagement" Version="1.0.15" />
+    <PackageReference Include="Alexa.NET" Version="1.5.4" />
+    <PackageReference Include="Alexa.NET.StateManagement" Version="2.0.0" />
   </ItemGroup>
   <ItemGroup>
     <Compile Remove="ErrorHandlerNotFoundException.cs" />

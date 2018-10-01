@@ -16,7 +16,7 @@ namespace Alexa.NET.RequestHandlers
 			SkillRequest = request;
 			Context = context;
 			Items = new Dictionary<string, object>();
-			State = new SkillState(request.Session);
+			State = new SkillState(request);
 		}
 
 		public AlexaRequestInformation(SkillRequest request, object context, IPersistenceStore persistenceStore)
@@ -24,7 +24,7 @@ namespace Alexa.NET.RequestHandlers
 			SkillRequest = request;
 			Context = context;
 			Items = new Dictionary<string, object>();
-			State = new SkillState(request.Session, persistenceStore);
+			State = new SkillState(request, persistenceStore);
 		}
 	}
 }
