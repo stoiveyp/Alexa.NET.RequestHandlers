@@ -4,6 +4,7 @@ using Alexa.NET.Request;
 using Alexa.NET.RequestHandlers.Handlers;
 using Alexa.NET.RequestHandlers.KeyLocale;
 using Alexa.NET.Response;
+using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using NSubstitute;
 using Xunit;
