@@ -70,8 +70,9 @@ namespace Alexa.NET.RequestHandlers.Tests
                 return actual;
             });
 
-			var secondInterceptor = Substitute.For<IAlexaRequestInterceptor>();
-			secondInterceptor.Intercept(Arg.Any<AlexaRequestInformation>(), Arg.Any<RequestInterceptorCall>()).Returns(c => {
+			var secondInterceptor = Substitute.For<IHandlerAwareRequestInterceptor>();
+			secondInterceptor.Intercept(Arg.Any<AlexaRequestInformation>(), Arg.Any<IAlexaRequestHandler>(),Arg.Any<RequestInterceptorCall>()).Returns(c => {
+                Assert.Equal(Handler,c.Arg<IAlexaRequestHandler>());
                 before = before + "2";
 				var actual = c.Arg<RequestInterceptorCall>()(c.Arg<AlexaRequestInformation>());
                 before = before + "4";

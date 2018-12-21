@@ -62,10 +62,11 @@ namespace Alexa.NET.RequestHandlers
         }
 
 	    private Task<SkillResponse> Process(AlexaRequestInformation information)
-		{         
+        {
+            IAlexaRequestHandler candidate = null;
             try
 			{
-				var candidate = RequestHandlers.FirstOrDefault(h => h?.CanHandle(information) ?? false);
+				candidate = RequestHandlers.FirstOrDefault(h => h?.CanHandle(information) ?? false);
 			    if (candidate == null)
 			    {
 			        throw new AlexaRequestHandlerNotFoundException();
@@ -89,7 +90,7 @@ namespace Alexa.NET.RequestHandlers
 					throw;
 				}
 
-				return new AlexaErrorInterceptor(ErrorInterceptors.First,errorCandidate).Intercept(information, ex);
+				return new AlexaErrorInterceptor(ErrorInterceptors.First,candidate,errorCandidate).Intercept(information, ex);
 			}
 		}
     }
