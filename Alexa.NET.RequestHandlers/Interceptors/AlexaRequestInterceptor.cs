@@ -25,7 +25,7 @@ namespace Alexa.NET.RequestHandlers.Interceptors
             }
 
             var interceptor = Node.Value;
-            if (interceptor is IHandlerAwareRequestInterceptor requestInterceptor)
+            if (Handler != null && interceptor is IHandlerAwareRequestInterceptor requestInterceptor)
             {
                 return requestInterceptor.Intercept(information, Handler, new AlexaRequestInterceptor(Node.Next, Handler).Intercept);
             }
