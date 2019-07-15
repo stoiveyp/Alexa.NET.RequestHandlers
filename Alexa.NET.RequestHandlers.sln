@@ -1,9 +1,15 @@
-
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 2012
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Alexa.NET.RequestHandlers", "Alexa.NET.RequestHandlers\Alexa.NET.RequestHandlers.csproj", "{2C120B5F-7B57-4F30-8C33-C4FC4E37B47E}"
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.29102.190
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Alexa.NET.RequestHandlers", "Alexa.NET.RequestHandlers\Alexa.NET.RequestHandlers.csproj", "{2C120B5F-7B57-4F30-8C33-C4FC4E37B47E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Alexa.NET.RequestHandlers.Tests", "Alexa.NET.RequestHandlers.Tests\Alexa.NET.RequestHandlers.Tests.csproj", "{8527A713-D576-4DF4-8910-7B5E823DF0D9}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Alexa.NET.RequestHandlers.Tests", "Alexa.NET.RequestHandlers.Tests\Alexa.NET.RequestHandlers.Tests.csproj", "{8527A713-D576-4DF4-8910-7B5E823DF0D9}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{FCFEBD2B-5B24-4E2F-B997-B7EED6C40F52}"
+	ProjectSection(SolutionItems) = preProject
+		README.md = README.md
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -19,5 +25,11 @@ Global
 		{8527A713-D576-4DF4-8910-7B5E823DF0D9}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8527A713-D576-4DF4-8910-7B5E823DF0D9}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8527A713-D576-4DF4-8910-7B5E823DF0D9}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {5B738AA3-1195-462B-98CB-56231E3FAC45}
 	EndGlobalSection
 EndGlobal

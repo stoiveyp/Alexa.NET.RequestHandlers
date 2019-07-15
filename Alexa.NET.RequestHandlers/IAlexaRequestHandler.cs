@@ -5,9 +5,12 @@ using Alexa.NET.Response;
 
 namespace Alexa.NET.RequestHandlers
 {
-    public interface IAlexaRequestHandler
+    public interface IAlexaRequestHandler:IAlexaRequestHandler<SkillRequest>{
+}
+
+public interface IAlexaRequestHandler<TSkillRequest> where TSkillRequest:SkillRequest
     {
-		bool CanHandle(AlexaRequestInformation information);
-		Task<SkillResponse> Handle(AlexaRequestInformation information);
+		bool CanHandle(AlexaRequestInformation<TSkillRequest> information);
+		Task<SkillResponse> Handle(AlexaRequestInformation<TSkillRequest> information);
     }
 }

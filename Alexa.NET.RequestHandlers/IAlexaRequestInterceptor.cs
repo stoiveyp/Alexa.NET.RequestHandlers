@@ -7,10 +7,14 @@ using Alexa.NET.Response;
 
 namespace Alexa.NET.RequestHandlers
 {
-	public delegate Task<SkillResponse> RequestInterceptorCall(AlexaRequestInformation information);   
+    public delegate Task<SkillResponse> RequestInterceptorCall<TSkillRequest>(AlexaRequestInformation<TSkillRequest> information) where TSkillRequest : SkillRequest;
 
-    public interface IAlexaRequestInterceptor
+    public interface IAlexaRequestInterceptor : IAlexaRequestInterceptor<SkillRequest>
     {
-		Task<SkillResponse> Intercept(AlexaRequestInformation information, RequestInterceptorCall next);
+    }
+
+    public interface IAlexaRequestInterceptor<TSkillRequest> where TSkillRequest : SkillRequest
+    {
+        Task<SkillResponse> Intercept(AlexaRequestInformation<TSkillRequest> information, RequestInterceptorCall<TSkillRequest> next);
     }
 }

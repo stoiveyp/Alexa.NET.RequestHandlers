@@ -7,10 +7,13 @@ using Alexa.NET.Response;
 
 namespace Alexa.NET.RequestHandlers.Handlers
 {
-    public abstract class AlwaysTrueRequestHandler:IAlexaRequestHandler
-    {
-		public bool CanHandle(AlexaRequestInformation information) => true;
+    public abstract class AlwaysTrueRequestHandler:AlwaysTrueRequestHandler<SkillRequest>{
+}
 
-		public abstract Task<SkillResponse> Handle(AlexaRequestInformation information);
+public abstract class AlwaysTrueRequestHandler<TSkillRequest> : IAlexaRequestHandler<TSkillRequest> where TSkillRequest:SkillRequest
+    {
+		public bool CanHandle(AlexaRequestInformation<TSkillRequest> information) => true;
+
+		public abstract Task<SkillResponse> Handle(AlexaRequestInformation<TSkillRequest> information);
     }
 }

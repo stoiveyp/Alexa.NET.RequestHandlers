@@ -1,13 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
+using Alexa.NET.Request;
 using Alexa.NET.Response;
 
 namespace Alexa.NET.RequestHandlers
 {
-    public interface IHandlerAwareRequestInterceptor:IAlexaRequestInterceptor
+    public interface IHandlerAwareRequestInterceptor : IHandlerAwareRequestInterceptor<SkillRequest>
     {
-        Task<SkillResponse> Intercept(AlexaRequestInformation information, IAlexaRequestHandler handler, RequestInterceptorCall next);
+    }
+
+    public interface IHandlerAwareRequestInterceptor<TSkillRequest> : IAlexaRequestInterceptor<TSkillRequest> where TSkillRequest : SkillRequest
+    {
+        Task<SkillResponse> Intercept(AlexaRequestInformation<TSkillRequest> information, IAlexaRequestHandler<TSkillRequest> handler, RequestInterceptorCall<TSkillRequest> next);
     }
 }

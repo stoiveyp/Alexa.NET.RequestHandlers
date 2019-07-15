@@ -5,19 +5,18 @@
     <NetStandardImplicitPackageVersion>1.6.0</NetStandardImplicitPackageVersion>
     <PackOnBuild>true</PackOnBuild>
     <Authors>Steven Pears</Authors>
-    <PackageLicenseUrl>https://github.com/stoiveyp/Alexa.NET.RequestHandlers/LICENSE</PackageLicenseUrl>
+    <PackageLicenseUrl></PackageLicenseUrl>
     <Owners>Steven Pears</Owners>
     <PackageProjectUrl>https://github.com/stoiveyp/Alexa.NET.RequestHandlers</PackageProjectUrl>
-    <PackageReleaseNotes>Add support for IHandlerAwareRequestInterceptor, IHandlerAwareErrorInterceptor
-Can be used alongside existing interceptors where it's useful to know which handler was selected (if one was)
-</PackageReleaseNotes>
+    <PackageReleaseNotes>Allow custom skill types to be used to allow easier integration with packages such as Alexa.NET.APL</PackageReleaseNotes>
     <PackageTags>Alexa, .NET, Echo</PackageTags>
     <Title>Alexa.NET.RequestHandlers</Title>
     <Description>A small library to help maintain clean code within a skill. Replicates the Request and Response Handler approach given in the ASK SDK for Node, as well as the concept of Request and Error Interceptors. For more information look at the docs or github links.</Description>
     <PackageId>Alexa.NET.RequestHandlers</PackageId>
-    <PackageVersion>2.0.0</PackageVersion>
+    <PackageVersion>4.0.0</PackageVersion>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-    <Version>3.0.0</Version>
+    <Version>4.0.0</Version>
+    <PackageLicenseFile>LICENSE</PackageLicenseFile>
   </PropertyGroup>
 
   <ItemGroup>
@@ -30,5 +29,11 @@ Can be used alongside existing interceptors where it's useful to know which hand
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Interceptors\" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\LICENSE">
+      <Pack>True</Pack>
+      <PackagePath></PackagePath>
+    </None>
   </ItemGroup>
 </Project>
