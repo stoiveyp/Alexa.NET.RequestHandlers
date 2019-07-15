@@ -5,7 +5,10 @@ using Alexa.NET.Response;
 
 namespace Alexa.NET.RequestHandlers
 {
-    public interface IHandlerAwareErrorInterceptor<TSkillRequest> : IAlexaErrorInterceptor<TSkillRequest> where TSkillRequest:SkillRequest
+    public interface IHandlerAwareErrorInterceptor:IHandlerAwareErrorInterceptor<SkillRequest>{
+}
+
+public interface IHandlerAwareErrorInterceptor<TSkillRequest> : IAlexaErrorInterceptor<TSkillRequest> where TSkillRequest:SkillRequest
     {
         Task<SkillResponse> Intercept(AlexaRequestInformation<TSkillRequest> information, IAlexaRequestHandler<TSkillRequest> handler, Exception ex, ErrorInterceptorCall<TSkillRequest> next);
     }

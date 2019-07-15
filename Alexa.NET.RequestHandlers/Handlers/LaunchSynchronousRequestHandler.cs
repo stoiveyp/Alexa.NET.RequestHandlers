@@ -8,7 +8,10 @@ using Alexa.NET.Response;
 
 namespace Alexa.NET.RequestHandlers.Handlers
 {
-    public abstract class LaunchSynchronousRequestHandler<TSkillRequest> : LaunchRequestHandler<TSkillRequest> where TSkillRequest:SkillRequest
+    public abstract class LaunchSynchronousRequestHandler:LaunchSynchronousRequestHandler<SkillRequest>{
+}
+
+public abstract class LaunchSynchronousRequestHandler<TSkillRequest> : LaunchRequestHandler<TSkillRequest> where TSkillRequest:SkillRequest
     {
         public override Task<SkillResponse> Handle(AlexaRequestInformation<TSkillRequest> information)
         {

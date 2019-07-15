@@ -37,7 +37,7 @@ namespace Alexa.NET.RequestHandlers.Tests
         public async Task EmptyErrorHandlerThrowsOnException()
         {
             var requestHandler = Substitute.For<AlwaysTrueRequestHandler>();
-            requestHandler.Handle(Arg.Any<AlexaRequestInformation>()).Throws<InvalidOperationException>();
+            requestHandler.Handle(Arg.Any<AlexaRequestInformation<SkillRequest>>()).Throws<InvalidOperationException>();
             var request = new AlexaRequestPipeline(new[] { requestHandler });
 			await Assert.ThrowsAsync<InvalidOperationException>(() => request.Process(new SkillRequest()));
         }
@@ -67,8 +67,8 @@ namespace Alexa.NET.RequestHandlers.Tests
 		[Fact]
         public async Task ValidErrorHandlerReturnsResponse()
 		{
-			var errorHandler = Substitute.For<AlwaysTrueErrorHandler>();
-            errorHandler.Handle(Arg.Any<AlexaRequestInformation>(), Arg.Any<Exception>()).Returns(new Response.SkillResponse());
+			var errorHandler = Substitute.For<AlwaysTrueErrorHandler<SkillRequest>>();
+            errorHandler.Handle(Arg.Any<AlexaRequestInformation<SkillRequest>>(), Arg.Any<Exception>()).Returns(new Response.SkillResponse());
 			var request = new AlexaRequestPipeline(null, new[] { errorHandler });
 			var response = await request.Process(new SkillRequest());
 			Assert.NotNull(response);
@@ -77,11 +77,11 @@ namespace Alexa.NET.RequestHandlers.Tests
 		[Fact]
         public async Task InvalidResponseValidErrorHandlerReturnsResponse()
         {
-			var requestHandler = Substitute.For<IAlexaRequestHandler>();
-            requestHandler.CanHandle(Arg.Any<AlexaRequestInformation>()).Returns(false);
+			var requestHandler = Substitute.For<IAlexaRequestHandler<SkillRequest>>();
+            requestHandler.CanHandle(Arg.Any<AlexaRequestInformation<SkillRequest>>()).Returns(false);
 
-            var errorHandler = Substitute.For<AlwaysTrueErrorHandler>();
-            errorHandler.Handle(Arg.Any<AlexaRequestInformation>(), Arg.Any<Exception>()).Returns(new Response.SkillResponse());
+            var errorHandler = Substitute.For<AlwaysTrueErrorHandler<SkillRequest>>();
+            errorHandler.Handle(Arg.Any<AlexaRequestInformation<SkillRequest>>(), Arg.Any<Exception>()).Returns(new Response.SkillResponse());
 			var request = new AlexaRequestPipeline(new[]{requestHandler}, new[] { errorHandler });
             var response = await request.Process(new SkillRequest());
             Assert.NotNull(response);
@@ -90,17 +90,17 @@ namespace Alexa.NET.RequestHandlers.Tests
 		[Fact]
         public async Task SpecificExceptionHandlerPicks()
         {
-			var requestHandler = Substitute.For<AlwaysTrueRequestHandler>();
-			requestHandler.Handle(Arg.Any<AlexaRequestInformation>()).Throws<InvalidOperationException>();
+			var requestHandler = Substitute.For<AlwaysTrueRequestHandler<SkillRequest>>();
+			requestHandler.Handle(Arg.Any<AlexaRequestInformation<SkillRequest>>()).Throws<InvalidOperationException>();
 
 
 			var specificError = Substitute.For<IAlexaErrorHandler>();
-			specificError.CanHandle(Arg.Any<AlexaRequestInformation>(), Arg.Any<InvalidOperationException>()).Returns(true);
-			specificError.Handle(Arg.Any<AlexaRequestInformation>(), Arg.Any<Exception>()).Returns(new Response.SkillResponse());
+			specificError.CanHandle(Arg.Any<AlexaRequestInformation<SkillRequest>>(), Arg.Any<InvalidOperationException>()).Returns(true);
+			specificError.Handle(Arg.Any<AlexaRequestInformation<SkillRequest>>(), Arg.Any<Exception>()).Returns(new Response.SkillResponse());
 			var errorHandler = Substitute.For<AlwaysTrueErrorHandler>();
 
 
-            var request = new AlexaRequestPipeline(new[] { requestHandler }, new[] { specificError,errorHandler });
+            var request = new AlexaRequestPipeline(new[] { requestHandler }, new IAlexaErrorHandler<SkillRequest>[] { specificError,errorHandler });
             var response = await request.Process(new SkillRequest());
             Assert.NotNull(response);
         }

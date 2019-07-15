@@ -5,7 +5,10 @@ using Alexa.NET.Response;
 
 namespace Alexa.NET.RequestHandlers
 {
-    public interface IAlexaErrorHandler<TSkillRequest> where TSkillRequest:SkillRequest
+    public interface IAlexaErrorHandler:IAlexaErrorHandler<SkillRequest>{
+}
+
+public interface IAlexaErrorHandler<TSkillRequest> where TSkillRequest:SkillRequest
     {
 		bool CanHandle(AlexaRequestInformation<TSkillRequest> information, Exception exception);
 		Task<SkillResponse> Handle(AlexaRequestInformation<TSkillRequest> information, Exception exception);      

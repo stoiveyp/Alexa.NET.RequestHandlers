@@ -9,7 +9,10 @@ namespace Alexa.NET.RequestHandlers
 {
 	public delegate Task<SkillResponse> ErrorInterceptorCall<TSkillRequest>(AlexaRequestInformation<TSkillRequest> information, Exception ex) where TSkillRequest : SkillRequest;
 
-    public interface IAlexaErrorInterceptor<TSkillRequest> where TSkillRequest : SkillRequest
+    public interface IAlexaErrorInterceptor:IAlexaErrorInterceptor<SkillRequest>{
+}
+
+public interface IAlexaErrorInterceptor<TSkillRequest> where TSkillRequest : SkillRequest
     {
 		Task<SkillResponse> Intercept(AlexaRequestInformation<TSkillRequest> information, Exception ex, ErrorInterceptorCall<TSkillRequest> next);
     }

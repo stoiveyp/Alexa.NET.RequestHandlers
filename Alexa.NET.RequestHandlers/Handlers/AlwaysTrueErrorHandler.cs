@@ -7,7 +7,11 @@ using Alexa.NET.Response;
 
 namespace Alexa.NET.RequestHandlers.Handlers
 {
-    public abstract class AlwaysTrueErrorHandler<TSkillRequest> : IAlexaErrorHandler<TSkillRequest> where TSkillRequest:SkillRequest
+
+    public abstract class AlwaysTrueErrorHandler:AlwaysTrueErrorHandler<SkillRequest>{
+}
+
+public abstract class AlwaysTrueErrorHandler<TSkillRequest> : IAlexaErrorHandler<TSkillRequest> where TSkillRequest:SkillRequest
     {
 		public bool CanHandle(AlexaRequestInformation<TSkillRequest> information, Exception exception) => true;
 

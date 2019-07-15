@@ -15,12 +15,12 @@ namespace Alexa.NET.RequestHandlers.Tests
         {
             var expected = ResponseBuilder.Empty();
 
-            var requestHandler = Substitute.For<IAlexaRequestHandler>();
-			requestHandler.CanHandle(Arg.Any<AlexaRequestInformation>()).Returns(true);
-			requestHandler.Handle(Arg.Any<AlexaRequestInformation>()).Returns(expected);
+            var requestHandler = Substitute.For<IAlexaRequestHandler<SkillRequest>>();
+			requestHandler.CanHandle(Arg.Any<AlexaRequestInformation<SkillRequest>>()).Returns(true);
+			requestHandler.Handle(Arg.Any<AlexaRequestInformation<SkillRequest>>()).Returns(expected);
 
-            var errorHandler = Substitute.For<IAlexaErrorHandler>();
-			errorHandler.CanHandle(Arg.Any<AlexaRequestInformation>(), Arg.Any<Exception>()).Returns(false);
+            var errorHandler = Substitute.For<IAlexaErrorHandler<SkillRequest>>();
+			errorHandler.CanHandle(Arg.Any<AlexaRequestInformation<SkillRequest>>(), Arg.Any<Exception>()).Returns(false);
 
             var request = new AlexaRequestPipeline(new[] { requestHandler }, new[] { errorHandler });
             var actual = await request.Process(new SkillRequest());
@@ -32,15 +32,15 @@ namespace Alexa.NET.RequestHandlers.Tests
         {
             var expected = ResponseBuilder.Empty();
 
-            var alwaysFalse = Substitute.For<IAlexaRequestHandler>();
-			alwaysFalse.CanHandle(Arg.Any<AlexaRequestInformation>()).Returns(false);
+            var alwaysFalse = Substitute.For<IAlexaRequestHandler<SkillRequest>>();
+			alwaysFalse.CanHandle(Arg.Any<AlexaRequestInformation<SkillRequest>>()).Returns(false);
 
-            var requestHandler = Substitute.For<IAlexaRequestHandler>();
-			requestHandler.CanHandle(Arg.Any<AlexaRequestInformation>()).Returns(true);
-			requestHandler.Handle(Arg.Any<AlexaRequestInformation>()).Returns(expected);
+            var requestHandler = Substitute.For<IAlexaRequestHandler<SkillRequest>>();
+			requestHandler.CanHandle(Arg.Any<AlexaRequestInformation<SkillRequest>>()).Returns(true);
+			requestHandler.Handle(Arg.Any<AlexaRequestInformation<SkillRequest>>()).Returns(expected);
 
-            var errorHandler = Substitute.For<IAlexaErrorHandler>();
-			errorHandler.CanHandle(Arg.Any<AlexaRequestInformation>(), Arg.Any<Exception>()).Returns(false);
+            var errorHandler = Substitute.For<IAlexaErrorHandler<SkillRequest>>();
+			errorHandler.CanHandle(Arg.Any<AlexaRequestInformation<SkillRequest>>(), Arg.Any<Exception>()).Returns(false);
 
             var request = new AlexaRequestPipeline(new[] { alwaysFalse, requestHandler }, new[] { errorHandler });
             var actual = await request.Process(new SkillRequest());

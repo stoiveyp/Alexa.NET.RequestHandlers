@@ -7,7 +7,15 @@ using Alexa.NET.Response;
 
 namespace Alexa.NET.RequestHandlers.Handlers
 {
-    public abstract class IntentNameSynchronousRequestHandler<TSkillRequest> : IntentNameRequestHandler<TSkillRequest> where TSkillRequest:SkillRequest
+    public abstract class IntentNameSynchronousRequestHandler : IntentNameSynchronousRequestHandler<SkillRequest>
+    {
+        protected IntentNameSynchronousRequestHandler(string intentName) : base(intentName)
+        {
+
+        }
+    }
+
+    public abstract class IntentNameSynchronousRequestHandler<TSkillRequest> : IntentNameRequestHandler<TSkillRequest> where TSkillRequest : SkillRequest
     {
         protected IntentNameSynchronousRequestHandler(string intentName) : base(intentName)
         {

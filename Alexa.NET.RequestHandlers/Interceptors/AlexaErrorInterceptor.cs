@@ -6,7 +6,18 @@ using Alexa.NET.Response;
 
 namespace Alexa.NET.RequestHandlers.Interceptors
 {
-    public class AlexaErrorInterceptor<TSkillRequest> where TSkillRequest:SkillRequest
+    public class AlexaErrorInterceptor : AlexaErrorInterceptor<SkillRequest>
+    {
+        public AlexaErrorInterceptor(LinkedListNode<IAlexaErrorInterceptor<SkillRequest>> node, 
+            IAlexaRequestHandler<SkillRequest> requestHandler, 
+            IAlexaErrorHandler<SkillRequest> handler):
+            base(node,requestHandler,handler)
+        {
+
+        }
+    }
+
+    public class AlexaErrorInterceptor<TSkillRequest> where TSkillRequest : SkillRequest
     {
         public AlexaErrorInterceptor(LinkedListNode<IAlexaErrorInterceptor<TSkillRequest>> node, IAlexaRequestHandler<TSkillRequest> requestHandler, IAlexaErrorHandler<TSkillRequest> handler)
         {
