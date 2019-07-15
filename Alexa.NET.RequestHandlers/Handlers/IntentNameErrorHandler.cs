@@ -6,21 +6,20 @@ using Alexa.NET.Response;
 
 namespace Alexa.NET.RequestHandlers.Handlers
 {
-	public abstract class IntentNameErrorHandler:IAlexaErrorHandler
-	{
+	public abstract class IntentNameErrorHandler<TSkillRequest> : IAlexaErrorHandler<TSkillRequest> where TSkillRequest:SkillRequest
+    {
 		public string IntentName { get; }
 
-		public IntentNameErrorHandler(string intentName)
+        protected IntentNameErrorHandler(string intentName)
 		{
 			IntentName = intentName;
 		}
 
-		public abstract Task<SkillResponse> Handle(AlexaRequestInformation information, Exception exception);
+		public abstract Task<SkillResponse> Handle(AlexaRequestInformation<TSkillRequest> information, Exception exception);
 
-		public bool CanHandle(AlexaRequestInformation information, Exception exception)
+		public bool CanHandle(AlexaRequestInformation<TSkillRequest> information, Exception exception)
 		{
-			var intentRequest = information.SkillRequest.Request as IntentRequest;
-            return intentRequest != null && string.Compare(IntentName, intentRequest.Intent.Name, true) == 0;
+            return information.SkillRequest.Request is IntentRequest intentRequest && string.Compare(IntentName, intentRequest.Intent.Name, true) == 0;
 		}
 	}
 }

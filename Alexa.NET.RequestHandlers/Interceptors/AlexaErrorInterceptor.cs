@@ -6,21 +6,21 @@ using Alexa.NET.Response;
 
 namespace Alexa.NET.RequestHandlers.Interceptors
 {
-    public class AlexaErrorInterceptor
+    public class AlexaErrorInterceptor<TSkillRequest> where TSkillRequest:SkillRequest
     {
-        public AlexaErrorInterceptor(LinkedListNode<IAlexaErrorInterceptor> node, IAlexaRequestHandler requestHandler, IAlexaErrorHandler handler)
+        public AlexaErrorInterceptor(LinkedListNode<IAlexaErrorInterceptor<TSkillRequest>> node, IAlexaRequestHandler<TSkillRequest> requestHandler, IAlexaErrorHandler<TSkillRequest> handler)
         {
             Node = node;
             Handler = handler ?? throw new ArgumentNullException(nameof(handler));
             RequestHandler = requestHandler;
         }
 
-        public IAlexaRequestHandler RequestHandler { get; set; }
+        public IAlexaRequestHandler<TSkillRequest> RequestHandler { get; set; }
 
-        public LinkedListNode<IAlexaErrorInterceptor> Node { get; }
-        public IAlexaErrorHandler Handler { get; }
+        public LinkedListNode<IAlexaErrorInterceptor<TSkillRequest>> Node { get; }
+        public IAlexaErrorHandler<TSkillRequest> Handler { get; }
 
-        public Task<SkillResponse> Intercept(AlexaRequestInformation request, Exception ex)
+        public Task<SkillResponse> Intercept(AlexaRequestInformation<TSkillRequest> request, Exception ex)
         {
             if (Node == null)
             {
@@ -28,15 +28,15 @@ namespace Alexa.NET.RequestHandlers.Interceptors
             }
 
             var interceptor = Node.Value;
-            if (RequestHandler != null && interceptor is IHandlerAwareErrorInterceptor requestInterceptor)
+            if (RequestHandler != null && interceptor is IHandlerAwareErrorInterceptor<TSkillRequest> requestInterceptor)
             {
-                requestInterceptor.Intercept(request, RequestHandler, ex, new AlexaErrorInterceptor(Node.Next, RequestHandler, Handler).Intercept);
+                requestInterceptor.Intercept(request, RequestHandler, ex, new AlexaErrorInterceptor<TSkillRequest>(Node.Next, RequestHandler, Handler).Intercept);
             }
 
-            return interceptor.Intercept(request, ex, new AlexaErrorInterceptor(Node.Next, RequestHandler, Handler).Intercept);
+            return interceptor.Intercept(request, ex, new AlexaErrorInterceptor<TSkillRequest>(Node.Next, RequestHandler, Handler).Intercept);
         }
 
-        public Task<SkillResponse> Intercept(AlexaRequestInformation request, Exception ex, ErrorInterceptorCall next)
+        public Task<SkillResponse> Intercept(AlexaRequestInformation<TSkillRequest> request, Exception ex, ErrorInterceptorCall<TSkillRequest> next)
         {
             return Node.Value.Intercept(request, ex, next);
         }

@@ -4,14 +4,14 @@ using Alexa.NET.StateManagement;
 
 namespace Alexa.NET.RequestHandlers
 {
-	public class AlexaRequestInformation
+    public class AlexaRequestInformation<TSkillRequest> where TSkillRequest:SkillRequest
 	{
-		public SkillRequest SkillRequest { get; }
+		public TSkillRequest SkillRequest { get; }
 		public object Context { get; }
 		public Dictionary<string, object> Items { get; }
 		public ISkillState State { get; }
 
-		public AlexaRequestInformation(SkillRequest request, object context)
+		public AlexaRequestInformation(TSkillRequest request, object context)
 		{
 			SkillRequest = request;
 			Context = context;
@@ -19,7 +19,7 @@ namespace Alexa.NET.RequestHandlers
 			State = new SkillState(request);
 		}
 
-		public AlexaRequestInformation(SkillRequest request, object context, IPersistenceStore persistenceStore)
+		public AlexaRequestInformation(TSkillRequest request, object context, IPersistenceStore persistenceStore)
 		{
 			SkillRequest = request;
 			Context = context;
