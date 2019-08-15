@@ -18,8 +18,8 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Alexa.NET" Version="1.8.0" />
-    <PackageReference Include="Alexa.NET.StateManagement" Version="2.1.0" />
+    <PackageReference Include="Alexa.NET" Version="1.8.1" />
+    <PackageReference Include="Alexa.NET.StateManagement" Version="2.1.1" />
   </ItemGroup>
   <ItemGroup>
     <Compile Remove="ErrorHandlerNotFoundException.cs" />
