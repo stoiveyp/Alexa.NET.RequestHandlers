@@ -1,10 +1,10 @@
 # Alexa.NET.RequestHandlers
 
-Alexa skills can get large and complicated and editing long switch statements can be error prone. This library allows you to isolate functionality into RequestHandlers - isolated classes that can be built independently and then brought together to power a skill.
+Alexa skills can get large and complicated and editing long switch statements can be error prone. This library allows you to isolate functionality into RequestHandlers. A request handler is an isolated piece of logic that you want your alexa skill to run based on a particular condition (it's a launch request, it's a specific type of intent, its the fallbackintent and the user has an account linked etc.).
 
 # So what is a request handler?
 
-A request handler is any class that implements the following interface
+From a code point of view it's any class that implements the following interface
 
 ```csharp
 public interface IAlexaRequestHandler
@@ -14,7 +14,7 @@ public interface IAlexaRequestHandler
 }
 ```
 
-The way this works is that when brought together in a pipeline and a request is processed, each of the request handlers has its `CanHandle` method executed in declaration order. The first handler that returns true is selected, and the handler is given the request.
+The way this works is that when brought together in a pipeline and a request is processed, each of the request handlers has its `CanHandle` method executed in declaration order. The first handler that returns true is selected, and the handler logic in the `Handle` method is executed to generated the skill response.
 
 Here's a couple of examples of a request handler
 
