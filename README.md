@@ -146,7 +146,7 @@ Task<SkillResponse> Intercept(AlexaRequestInformation information, IAlexaRequest
 
 The handler is passed in to help with logic **you do not need to execute the handler yourself** All the interceptor has to do is execute the `next` argument with the parameters - when the full chain is executed the `next` parameter will execute the handler as the last step in the chain.
 
-If you want to pass information outside of the interceptor without altering the handler directly (as that would tightly couple your handler to your inceptor) then you can use the AlexaSkillInformation.Items dictionary.
+If you want to pass information outside of the interceptor without altering the handler directly (as that would tightly couple your handler to your interceptor) then you can use the `AlexaSkillInformation.Items` dictionary.
 
 ```csharp
 public Task<SkillResponse> Intercept(AlexaRequestInformation<SkillRequest> information, IAlexaRequestHandler<SkillRequest> handler, RequestInterceptorCall<SkillRequest> next)
