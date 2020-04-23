@@ -14,7 +14,7 @@ public interface IAlexaRequestHandler
 }
 ```
 
-The way this works is that when brought together in (a pipeline)[#pipeline] and a request is processed, each of the request handlers has its `CanHandle` method executed in declaration order. The first handler that returns true is selected, and the handler is given the request.
+The way this works is that when brought together in a pipeline and a request is processed, each of the request handlers has its `CanHandle` method executed in declaration order. The first handler that returns true is selected, and the handler is given the request.
 
 Here's a couple of examples of a request handler
 
@@ -49,7 +49,7 @@ public class AnswerIntentRequestHandler:IAlexaRequestHandler
 }
 ```
 
-[# Executing your request handlers](#pipeline)
+# Executing your request handlers
 
 To execute your request handlers you build an AlexaRequestPipeline and register each of your RequestHanders. As we've said order here is important - it will allow you to make handlers that deal with subtle differences in functionality and you can register the most specific first (such as the two buy handlers in the example below).
 
@@ -84,7 +84,7 @@ The AlexaRequestInformation object is several pieces of information about the ex
 
 *    SkillRequest - the request being processed
 *    Context - the context object passed in as part of the process call, useful for information from the executing request
-*    Items - a dictionary of objects specific to this request, useful for passing information from [interpreters](#interpreters)
+*    Items - a dictionary of objects specific to this request, useful for passing information from interpreters
 
 # Custom Skill requests objects
 
@@ -102,7 +102,7 @@ public interface IAlexaErrorHandler
 }
 ```
 
-[# Creating request interceptors](#interpreters)
+# Creating request interceptors
 
 There are times where you want to write logic that is run regardless of which handler is selected. Potentially you could wrap this logic around the pipeline, but that would require alteration of the execution environment. So instead you have request and error interceptors.
 
