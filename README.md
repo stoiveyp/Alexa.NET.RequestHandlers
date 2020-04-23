@@ -84,7 +84,7 @@ The AlexaRequestInformation object is several pieces of information about the ex
 
 *    SkillRequest - the request being processed
 *    Context - the context object passed in as part of the process call, useful for information from the executing request
-*    Items - a dictionary of objects specific to this request, useful for passing information from interpreters
+*    Items - a dictionary of objects specific to this request, useful for passing information from interceptors (see below)
 
 # Custom Skill requests objects
 
