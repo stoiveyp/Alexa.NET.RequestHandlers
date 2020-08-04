@@ -16,10 +16,11 @@ public interface IAlexaRequestHandler
 
 The way this works is that when brought together in a pipeline and a request is processed, each of the request handlers has its `CanHandle` method executed in declaration order. The first handler that returns true is selected, and the handler logic in the `Handle` method is executed to generated the skill response.
 
-Here's a couple of examples of a request handler
+Here's a few examples of a request handler
 
+__Launch Request:__
 ```csharp
-public class LaunchRequestHandler:IAlexaRequestHandler
+public class LaunchRequestHandler:LaunchRequestHandler
 {
     public bool CanHandle(AlexaRequestInformation information)
     {
@@ -27,24 +28,39 @@ public class LaunchRequestHandler:IAlexaRequestHandler
     }
 
     public Task<SkillResponse> Handle(AlexaRequestInformation<TSkillRequest> information){
-        return ResponseBuilder.Ask("hello, what should I call you?");
+        return Task.FromResult(ResponseBuilder.Ask("hello, what should I call you?", null));
     }
 }
 ```
 
+__Synchronous intent request__
 ```csharp
-public class AnswerIntentRequestHandler:IAlexaRequestHandler
+public class AnswerIntentRequestHandler:IntentNameSynchronousRequestHandler
 {
-    public bool CanHandle(AlexaRequestInformation information)
-    {
-        return information.SkillRequest.Request is IntentRequest intent
-        && intent.Intent.Name == "answer";
-    }
+    public AnswerIntentRequestHandler():base("answer")
 
-    public Task<SkillResponse> Handle(AlexaRequestInformation<TSkillRequest> information)
+    public override SkillResponse HandleSyncRequest(AlexaRequestInformation<SkillRequest> information)
     {
         var intentRequest = information.SkillRequest.Request as IntentRequest;
-        return ResponseBuilder.Ask($"hello {intentRequest.Intent.Slots["answer"].Value}");
+        return ResponseBuilder.Ask($"hello {intentRequest.Intent.Slots["answer"].Value}", null);
+    }
+}
+```
+
+__Specific request criteria with a non-standard request object (from Alexa.NET.APL)__
+```csharp
+public class AnswerIntentRequestHandler:IAlexaRequestHandler<APLSkillRequest>
+{
+    public bool CanHandle(AlexaRequestInformation<APLSkillRequest> information)
+    {
+        return skillRequest.APLSupported();
+    }
+
+    public async Task<SkillResponse> Handle(AlexaRequestInformation<APLSkillRequest> information){
+        var response = ResponseBuilder.Empty();
+	var document = await GenerateDisplay(information.State.Session);
+	AddToResponse(response, document);
+	return response;
     }
 }
 ```
