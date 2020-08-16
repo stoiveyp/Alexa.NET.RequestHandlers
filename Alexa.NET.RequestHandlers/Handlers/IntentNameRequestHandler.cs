@@ -25,8 +25,12 @@ namespace Alexa.NET.RequestHandlers.Handlers
 
         public bool CanHandle(AlexaRequestInformation<TSkillRequest> information)
         {
-            return information.SkillRequest.Request is IntentRequest intentRequest
-                   && String.Compare(IntentName, intentRequest.Intent.Name, StringComparison.OrdinalIgnoreCase) == 0;
+            return information.SkillRequest.Request is IntentRequest intentRequest && IntentCheck(intentRequest);
+        }
+
+        protected virtual bool IntentCheck(IntentRequest intentRequest)
+        {
+            return string.Compare(IntentName, intentRequest.Intent.Name, StringComparison.OrdinalIgnoreCase) == 0;
         }
 
         public abstract Task<SkillResponse> Handle(AlexaRequestInformation<TSkillRequest> information);
