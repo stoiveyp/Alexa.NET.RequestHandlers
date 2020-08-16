@@ -11,7 +11,7 @@
     <Title>Alexa.NET.RequestHandlers</Title>
     <Description>A small library to help maintain clean code within a skill. Replicates the Request and Response Handler approach given in the ASK SDK for Node, as well as the concept of Request and Error Interceptors. For more information look at the docs or github links.</Description>
     <PackageId>Alexa.NET.RequestHandlers</PackageId>
-    <PackageVersion>4.1.1</PackageVersion>
+    <PackageVersion>4.2.0</PackageVersion>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <Version>4.2.0</Version>
     <PackageLicenseFile>LICENSE</PackageLicenseFile>
